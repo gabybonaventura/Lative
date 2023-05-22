@@ -1,0 +1,24 @@
+﻿version: "3.8"
+
+services:
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=Lative@123
+      - POSTGRES_USER=gbonaventura
+      - POSTGRES_DB=lative_database
+    ports:
+      - 5432:5432
+
+  app:
+    build:
+      context: .
+      dockerfile: ./Lative.Presentation/Dockerfile
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=lative_database
+      - DB_USER=gbonaventura
+      - DB_PASSWORD=Lative@123
