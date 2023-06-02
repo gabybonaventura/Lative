@@ -2,7 +2,7 @@
 
 namespace Lative.Application;
 
-public class IndexMap
+public class IndexMap : IIndexMap
 {
     private Dictionary<string, int> _map = new();
     
