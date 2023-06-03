@@ -70,8 +70,14 @@ public class DataImporter : IDataImporter
                 binaryImporter.StartRow();
                 binaryImporter.Write(dimension.Name, NpgsqlDbType.Text);
                 binaryImporter.Write(dimension.Value, NpgsqlDbType.Text);
-                binaryImporter.Write(dimension.StartDate, NpgsqlDbType.Date);
-                binaryImporter.Write(dimension.EndDate, NpgsqlDbType.Date);
+                if (dimension.StartDate.HasValue)
+                    binaryImporter.Write(dimension.StartDate.Value, NpgsqlDbType.Date);
+                else
+                    binaryImporter.WriteNull();
+                if (dimension.EndDate.HasValue)
+                    binaryImporter.Write(dimension.EndDate.Value, NpgsqlDbType.Date);
+                else
+                    binaryImporter.WriteNull();
                 binaryImporter.Write(sale.OpportunityID, NpgsqlDbType.Text);
             }
         }

@@ -57,7 +57,7 @@ namespace Lative.Presentation
 
                     services.AddSingleton<ICsvProcessor, CsvProcessor>();
                     services.AddSingleton<IIndexMap, IndexMap>();
-                    services.AddSingleton<IDataImporter>(provider => new DataImporter(connectionString));
+                    services.AddScoped<IDataImporter>(provider => new DataImporter(connectionString));
                     services.AddScoped<ITableInitializer>(provider => new TableInitializer(connectionString));
                 });
 

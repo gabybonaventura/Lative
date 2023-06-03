@@ -22,27 +22,26 @@ public class TableInitializer : ITableInitializer
 
         // Create Sales table
         command.CommandText = @"
-            CREATE TABLE IF NOT EXISTS Sales (
-                Id SERIAL PRIMARY KEY,
-                OpportunityId TEXT NOT NULL,
-                OpportunityOwner TEXT NOT NULL,
-                Currency TEXT NOT NULL,
-                Amount FLOAT NOT NULL,
-                CloseDate DATE NOT NULL
-            );";
+        CREATE TABLE IF NOT EXISTS Sales (
+            OpportunityId TEXT PRIMARY KEY NOT NULL,
+            OpportunityOwner TEXT NOT NULL,
+            Currency TEXT NOT NULL,
+            Amount NUMERIC NOT NULL,
+            CloseDate DATE NOT NULL
+        );";
         command.ExecuteNonQuery();
 
         // Create Dimensions table
         command.CommandText = @"
-            CREATE TABLE IF NOT EXISTS Dimensions (
-                Id SERIAL PRIMARY KEY,
-                Name TEXT,
-                Value TEXT,
-                StartDate DATE NULL,
-                EndDate DATE NULL,
-                SaleOperationModelId INT,
-                FOREIGN KEY (SaleOperationModelId) REFERENCES Sales (Id)
-            );";
+        CREATE TABLE IF NOT EXISTS Dimensions (
+            Id SERIAL PRIMARY KEY,
+            Name TEXT,
+            Value TEXT,
+            StartDate DATE NULL,
+            EndDate DATE NULL,
+            SaleOperationModelId TEXT,
+            FOREIGN KEY (SaleOperationModelId) REFERENCES Sales (OpportunityId)
+        );";
         command.ExecuteNonQuery();
     }
 
