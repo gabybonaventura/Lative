@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lative.Domain.Tests", "Lati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lative.DataAccess", "Lative.DataAccess\Lative.DataAccess.csproj", "{A581E241-7496-4ECA-A5B6-7BE97E94932E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lative.Infrastructure", "Lative.Infrastructure\Lative.Infrastructure.csproj", "{83934B01-881B-462B-86B6-DE06B778C2E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,7 @@ Global
 		{51F38B95-3883-4C1C-A4A5-3E3EC0296429} = {36A87B4F-065D-409D-AB67-9F3AC1282CD0}
 		{DDEF343C-7AE0-4BB6-A97D-04DF81732990} = {36A87B4F-065D-409D-AB67-9F3AC1282CD0}
 		{A581E241-7496-4ECA-A5B6-7BE97E94932E} = {6B25F205-602C-40E4-9BB0-25919A619CB5}
+		{83934B01-881B-462B-86B6-DE06B778C2E7} = {890605B6-6AAF-4CE5-9E4C-4E7A46B6B73F}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{7E1CADBB-443D-438E-A74D-948C117C3C92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -67,5 +70,9 @@ Global
 		{A581E241-7496-4ECA-A5B6-7BE97E94932E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A581E241-7496-4ECA-A5B6-7BE97E94932E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A581E241-7496-4ECA-A5B6-7BE97E94932E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83934B01-881B-462B-86B6-DE06B778C2E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83934B01-881B-462B-86B6-DE06B778C2E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83934B01-881B-462B-86B6-DE06B778C2E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83934B01-881B-462B-86B6-DE06B778C2E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
