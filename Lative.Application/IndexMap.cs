@@ -5,8 +5,8 @@ namespace Lative.Application;
 
 public class IndexMap : IIndexMap
 {
-    private Dictionary<string, int> _map = new();
-    private List<DimensionHeaderModel> _dimensionHeaders = new();
+    private readonly Dictionary<string, int> _map = new();
+    private readonly List<DimensionHeaderModel> _dimensionHeaders = new();
     public void SetIndexMap(string header)
     {
         var headerSplit = header.Split(',');

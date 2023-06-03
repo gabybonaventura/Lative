@@ -5,7 +5,7 @@ namespace Lative.Application;
 
 public class CsvProcessor : ICsvProcessor
 {
-    private IIndexMap _indexMap;
+    private readonly IIndexMap _indexMap;
     public CsvProcessor(IIndexMap indexMap)
     {
         _indexMap = indexMap;
