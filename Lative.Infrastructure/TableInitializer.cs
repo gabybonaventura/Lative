@@ -1,8 +1,9 @@
 ﻿namespace Lative.Infrastructure;
+using System;
 
 using Npgsql;
 
-public class TableInitializer
+public class TableInitializer : ITableInitializer
 {
     private readonly string _connectionString;
 
@@ -35,12 +36,14 @@ public class TableInitializer
         command.CommandText = @"
             CREATE TABLE IF NOT EXISTS Dimensions (
                 Id SERIAL PRIMARY KEY,
-                SaleId INTEGER REFERENCES Sales (Id) ON DELETE CASCADE,
-                Name TEXT NOT NULL,
-                Value TEXT NOT NULL,
-                StartDate DATE,
-                EndDate DATE
+                Name TEXT,
+                Value TEXT,
+                StartDate DATE NULL,
+                EndDate DATE NULL,
+                SaleOperationModelId INT,
+                FOREIGN KEY (SaleOperationModelId) REFERENCES Sales (Id)
             );";
         command.ExecuteNonQuery();
     }
+
 }

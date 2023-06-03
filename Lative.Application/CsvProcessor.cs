@@ -36,7 +36,7 @@ public class CsvProcessor : ICsvProcessor
             Currency = fields[_indexMap.GetIndex("Currency")]
         };
 
-        if (DateOnly.TryParse(fields[_indexMap.GetIndex("Close Date")], out var closeDate))
+        if (DateTime.TryParse(fields[_indexMap.GetIndex("Close Date")], out var closeDate))
         {
             saleOperationModel.CloseDate = closeDate;
         }
@@ -75,12 +75,12 @@ public class CsvProcessor : ICsvProcessor
                     Value = dimensionValue
                 };
 
-                if (DateOnly.TryParse(startDate, out var start))
+                if (DateTime.TryParse(startDate, out var start))
                 {
                     dimensionModel.StartDate = start;
                 }
 
-                if (DateOnly.TryParse(endDate, out var end))
+                if (DateTime.TryParse(endDate, out var end))
                 {
                     dimensionModel.EndDate = end;
                 }

@@ -18,44 +18,39 @@ public class DataImporter : IDataImporter
         using var connection = new NpgsqlConnection(_connectionString);
         connection.Open();
 
-        using var binaryImporterSales = connection.BeginBinaryImport(GetSaleImportSql(batchSize));
-        using var binaryImporterDimensions = connection.BeginBinaryImport(GetDimensionImportSql(batchSize));
+        using var binaryImporterSales = connection.BeginBinaryImport(GetSaleImportSql());
+
+        using var connectionDimensions = new NpgsqlConnection(_connectionString);
+        connectionDimensions.Open();
+        using var binaryImporterDimensions = connectionDimensions.BeginBinaryImport(GetDimensionImportSql());
 
         var salesBatch = new List<SaleOperationModel>();
-        var dimensionsBatch = new List<SaleDimensionModel>();
-
         foreach (var sale in sales)
         {
             salesBatch.Add(sale);
 
-            foreach (var dimension in sale.Dimensions.Values)
+            if (salesBatch.Count >= batchSize)
             {
-                dimensionsBatch.Add(dimension);
-            }
-
-            if (salesBatch.Count >= batchSize || dimensionsBatch.Count >= batchSize)
-            {
-                InsertSalesBatch(binaryImporterSales, salesBatch);
-                InsertDimensionsBatch(binaryImporterDimensions, dimensionsBatch);
-
+                WriteSalesToBinaryImporter(binaryImporterSales, salesBatch);
+                WriteDimensionsToBinaryImporter(binaryImporterDimensions, salesBatch);
                 salesBatch.Clear();
-                dimensionsBatch.Clear();
             }
         }
 
-        if (salesBatch.Count > 0 || dimensionsBatch.Count > 0)
+        // Write any remaining sales in the last batch
+        if (salesBatch.Count > 0)
         {
-            InsertSalesBatch(binaryImporterSales, salesBatch);
-            InsertDimensionsBatch(binaryImporterDimensions, dimensionsBatch);
+            WriteSalesToBinaryImporter(binaryImporterSales, salesBatch);
+            WriteDimensionsToBinaryImporter(binaryImporterDimensions, salesBatch);
         }
 
         binaryImporterSales.Complete();
         binaryImporterDimensions.Complete();
     }
 
-    private void InsertSalesBatch(NpgsqlBinaryImporter binaryImporter, List<SaleOperationModel> salesBatch)
+    private void WriteSalesToBinaryImporter(NpgsqlBinaryImporter binaryImporter, IEnumerable<SaleOperationModel> sales)
     {
-        foreach (var sale in salesBatch)
+        foreach (var sale in sales)
         {
             binaryImporter.StartRow();
             binaryImporter.Write(sale.OpportunityID, NpgsqlDbType.Text);
@@ -66,29 +61,34 @@ public class DataImporter : IDataImporter
         }
     }
 
-    private void InsertDimensionsBatch(NpgsqlBinaryImporter binaryImporter, List<SaleDimensionModel> dimensionsBatch)
+    private void WriteDimensionsToBinaryImporter(NpgsqlBinaryImporter binaryImporter, IEnumerable<SaleOperationModel> sales)
     {
-        foreach (var dimension in dimensionsBatch)
+        foreach (var sale in sales)
         {
-            binaryImporter.StartRow();
-            binaryImporter.Write(dimension.Name, NpgsqlDbType.Text);
-            binaryImporter.Write(dimension.Value, NpgsqlDbType.Text);
-            binaryImporter.Write(dimension.StartDate, NpgsqlDbType.Date);
-            binaryImporter.Write(dimension.EndDate, NpgsqlDbType.Date);
-            binaryImporter.Write(dimension.SaleOperationModelId, NpgsqlDbType.Text);
+            foreach (var dimension in sale.Dimensions.Values)
+            {
+                binaryImporter.StartRow();
+                binaryImporter.Write(dimension.Name, NpgsqlDbType.Text);
+                binaryImporter.Write(dimension.Value, NpgsqlDbType.Text);
+                binaryImporter.Write(dimension.StartDate, NpgsqlDbType.Date);
+                binaryImporter.Write(dimension.EndDate, NpgsqlDbType.Date);
+                binaryImporter.Write(sale.OpportunityID, NpgsqlDbType.Text);
+            }
         }
     }
-    private static string GetSaleImportSql(int batchSize)
+
+    private static string GetSaleImportSql()
     {
-        return $"COPY Sales (OpportunityID, OpportunityOwner, Currency, Amount, CloseDate) " +
-               $"FROM STDIN (FORMAT BINARY, ROWS {batchSize})";
+        return "COPY Sales (OpportunityID, OpportunityOwner, Currency, Amount, CloseDate) " +
+            "FROM STDIN (FORMAT BINARY)";
     }
 
-    private static string GetDimensionImportSql(int batchSize)
+    private static string GetDimensionImportSql()
     {
-        return $"COPY Dimensions (Name, Value, StartDate, EndDate, SaleOperationModelId) " +
-               $"FROM STDIN (FORMAT BINARY, ROWS {batchSize})";
+        return "COPY Dimensions (Name, Value, StartDate, EndDate, SaleOperationModelId) " +
+            "FROM STDIN (FORMAT BINARY)";
     }
+
 
 
 }

@@ -59,7 +59,7 @@ public class CsvProcessorTests
         Assert.That(saleOperationModel.OpportunityOwner, Is.EqualTo("667332"));
         Assert.That(saleOperationModel.Currency, Is.EqualTo("USD"));
         Assert.That(saleOperationModel.Amount, Is.EqualTo(15020.00f));
-        Assert.That(saleOperationModel.CloseDate, Is.EqualTo(new DateOnly(2023, 10, 31)));
+        Assert.That(saleOperationModel.CloseDate.Date, Is.EqualTo(new DateTime(2023, 10, 31)));
     }
 
     [Test]
@@ -124,12 +124,12 @@ public class CsvProcessorTests
         Assert.That(saleOperationModels[0].OpportunityOwner, Is.EqualTo("667332"));
         Assert.That(saleOperationModels[0].Currency, Is.EqualTo("USD"));
         Assert.That(saleOperationModels[0].Amount, Is.EqualTo(15020.00f));
-        Assert.That(saleOperationModels[0].CloseDate, Is.EqualTo(new DateOnly(2023, 10, 31)));
+        Assert.That(saleOperationModels[0].CloseDate.Date, Is.EqualTo(new DateTime(2023, 10, 31)));
 
         Assert.That(saleOperationModels[1].OpportunityID, Is.EqualTo("3702396-15704-2"));
         Assert.That(saleOperationModels[1].OpportunityOwner, Is.EqualTo("667391"));
         Assert.That(saleOperationModels[1].Currency, Is.EqualTo("USD"));
         Assert.That(saleOperationModels[1].Amount, Is.EqualTo(1890.00f));
-        Assert.That(saleOperationModels[1].CloseDate, Is.EqualTo(new DateOnly(2023, 10, 1)));
+        Assert.That(saleOperationModels[1].CloseDate.Date, Is.EqualTo(new DateTime(2023, 10, 1)));
     }
 }

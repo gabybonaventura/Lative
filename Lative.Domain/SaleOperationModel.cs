@@ -12,6 +12,6 @@ public class SaleOperationModel
     public string OpportunityOwner { get; set; }
     public string Currency { get; set; }
     public float Amount { get; set; }
-    public DateOnly CloseDate { get; set; }
+    public DateTime CloseDate { get; set; }
     public Dictionary<string, SaleDimensionModel> Dimensions { get; set; }
 }

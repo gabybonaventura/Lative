@@ -9,6 +9,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.DataAccess", "4.DataAccess", "{6B25F205-602C-40E4-9BB0-25919A619CB5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5.Infrastructure", "5.Infrastructure", "{890605B6-6AAF-4CE5-9E4C-4E7A46B6B73F}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+		sample_data_customer_1.csv = sample_data_customer_1.csv
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lative.Presentation", "Lative.Presentation\Lative.Presentation.csproj", "{7E1CADBB-443D-438E-A74D-948C117C3C92}"
 EndProject
