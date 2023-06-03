@@ -5,22 +5,23 @@ namespace Lative.Domain.Tests;
 
 public class CsvProcessorTests
 {
-    private CsvProcessor csvReader;
+    private CsvProcessor csvProcessor;
     private string csvFilePath;
-    
+
     [SetUp]
     public void SetUp()
     {
-        csvReader = new CsvProcessor(new IndexMap());
+        csvProcessor = new CsvProcessor(new IndexMap());
         csvFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "sample_data_customer_1.csv");
-
     }
 
     [Test]
     public void ReadCsv_WithValidCsvFile_ParsesFieldsCorrectly()
     {
-        var saleOperationModels = csvReader.ReadCsv(csvFilePath).ToList();
+        // Act
+        var saleOperationModels = csvProcessor.ReadCsv(csvFilePath).ToList();
 
+        // Assert
         Assert.That(saleOperationModels.Count, Is.EqualTo(2));
 
         Assert.That(saleOperationModels[0].OpportunityID, Is.EqualTo("3707384-15976-1"));
@@ -34,5 +35,19 @@ public class CsvProcessorTests
         Assert.That(saleOperationModels[1].Currency, Is.EqualTo("USD"));
         Assert.That(saleOperationModels[1].Amount, Is.EqualTo(1890.00f));
         Assert.That(saleOperationModels[1].CloseDate, Is.EqualTo(new DateOnly(2023, 10, 1)));
+    }
+
+    [Test]
+    public void ReadCsv_WithValidCsvFile_ParsesDimensionsCorrectly()
+    {
+        // Act
+        var saleOperationModels = csvProcessor.ReadCsv(csvFilePath).ToList();
+
+        // Assert
+        Assert.That(saleOperationModels.Count, Is.EqualTo(2));
+        
+        Assert.That(saleOperationModels[0].Dimensions.Count, Is.EqualTo(7)); // Expect 7 dimensions
+
+        Assert.That(saleOperationModels[1].Dimensions.Count, Is.EqualTo(7)); // Expect 7 dimensions
     }
 }

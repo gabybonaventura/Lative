@@ -39,4 +39,22 @@ public class IndexMapTests
 
         Assert.That(index, Is.EqualTo(-1));
     }
+    [Test]
+    public void GetDimensionHeaders_ReturnsCorrectIndices()
+    {
+        // Arrange
+        var indexMap = new IndexMap();
+        indexMap.SetIndexMap("Opportunity ID,Opportunity Owner,Close Date,Location,Location Start Date,Location End Date,Segment,Segment Start Date,Segment End Date");
+
+        // Assert
+        Assert.That(indexMap.GetDimensionHeaders().Count, Is.EqualTo(2));
+
+        Assert.That(indexMap.GetDimensionHeaders()[0].NameIndex, Is.EqualTo(3));
+        Assert.That(indexMap.GetDimensionHeaders()[0].StartDateIndex, Is.EqualTo(4));
+        Assert.That(indexMap.GetDimensionHeaders()[0].EndDateIndex, Is.EqualTo(5));
+
+        Assert.That(indexMap.GetDimensionHeaders()[1].NameIndex, Is.EqualTo(6));
+        Assert.That(indexMap.GetDimensionHeaders()[1].StartDateIndex, Is.EqualTo(7));
+        Assert.That(indexMap.GetDimensionHeaders()[1].EndDateIndex, Is.EqualTo(8));
+    }
 }

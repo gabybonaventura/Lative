@@ -47,6 +47,36 @@ public class CsvProcessor : ICsvProcessor
                     // TODO: Log the error and move the line to an error file
                     continue;
                 }
+                
+                
+                // Process dimensions
+                foreach (var dimensionHeader in _indexMap.GetDimensionHeaders())
+                {
+                    var dimensionValue = fields[dimensionHeader.NameIndex];
+                    var startDate = fields[dimensionHeader.StartDateIndex];
+                    var endDate = fields[dimensionHeader.EndDateIndex];
+
+                    if (!string.IsNullOrEmpty(dimensionValue))
+                    {
+                        var dimensionModel = new SaleDimensionModel
+                        {
+                            Name = dimensionHeader.Name,
+                            Value = dimensionValue
+                        };
+
+                        if (DateOnly.TryParse(startDate, out var start))
+                        {
+                            dimensionModel.StartDate = start;
+                        }
+
+                        if (DateOnly.TryParse(endDate, out var end))
+                        {
+                            dimensionModel.EndDate = end;
+                        }
+
+                        saleOperationModel.Dimensions.Add(dimensionHeader.Name, dimensionModel);
+                    }
+                }
                 yield return saleOperationModel;
             }
         }
